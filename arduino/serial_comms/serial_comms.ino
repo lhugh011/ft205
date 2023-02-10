@@ -7,16 +7,19 @@ SoftwareSerial mySerial(6, 7);
 void setup() {
   Serial.begin(9600);
   mySerial.begin(9600);
-  Serial.print("Wind sensor initialize");
+  Serial.print("Wind sensor initializing...\r\n");
   delay(3000);
+  // SET ft205ev to UART mode
   mySerial.write("$01CIU*//\r\n");
   delay(2000);
+  // QUERY if comms protocol is set
   mySerial.write("$01CI?*//\r\n");
   delay(1000);
 
 }
 
 void loop() {
+  // QUERY wind speed and direction msg
   mySerial.write("$//WV?*//\r\n");
   while(mySerial.available())
   {
@@ -24,5 +27,4 @@ void loop() {
   }
   Serial.println();
   delay(1000);
-
 }
